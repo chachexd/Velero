@@ -61,7 +61,7 @@ def main():
         
         print(f"\nEmbarcaciones navegando: {Embarcacion.get_num_barcos_navegando()}")
         
-        # Parar navegación
+        # Parar navegación velero1 y lancha1
         velero1.parar_navegacion(1.0)
         print(f"✓ {velero1.get_nombre_barco()} ha parado la navegación")
         
