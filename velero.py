@@ -5,32 +5,36 @@ Embarcación a vela que puede participar en regatas
 
 from embarcacion import Embarcacion
 from i_regateable import IRegateable
-from excepciones import IllegalArgumentException
+
+
+class IllegalArgumentException(Exception):
+    """Excepción para argumentos ilegales"""
+    pass
 
 
 class Velero(Embarcacion, IRegateable):
     """Clase para veleros"""
     
-    # Constantes públicas de clase
+    # Constantes públicas
     MIN_MASTILES = 1
     MAX_MASTILES = 4
     MIN_VELOCIDAD_VELERO = 2
     MAX_VELOCIDAD_VELERO = 30
     
-    # Atributos de clase (privados)
+    # Atributos de clase
     _num_veleros = 0
     
     def __init__(self, nombre=None, num_mastiles=None, num_max_tripulantes=None):
         """Constructor de Velero"""
         
-        # Constructor sin parámetros (atributos por defecto)
+        # Constructor sin parámetros
         if nombre is None:
             Velero._num_veleros += 1
             nombre = f"Velero {Velero._num_veleros}"
             num_mastiles = Velero.MIN_MASTILES
             num_max_tripulantes = Embarcacion.MIN_TRIPULANTES
         else:
-            # Validación para constructor con parámetros 
+            # Validación para constructor con parámetros
             if num_mastiles < Velero.MIN_MASTILES or num_mastiles > Velero.MAX_MASTILES:
                 raise IllegalArgumentException(
                     f"El número de mástiles debe estar entre {Velero.MIN_MASTILES} y {Velero.MAX_MASTILES}."
@@ -58,14 +62,14 @@ class Velero(Embarcacion, IRegateable):
     def set_rumbo(self, rumbo):
         """Cambia el rumbo del velero mientras navega"""
         
-        # Validaciones específicas de Velero 
+        # Validaciones específicas de Velero
         if rumbo is None:
             raise ValueError("El rumbo no puede ser nulo, debes indicar el rumbo (ceñida o empopada) para poder modificarlo.")
         
         if rumbo not in ["ceñida", "empopada"]:
             raise ValueError("El rumbo no es correcto, debes indicar el rumbo (ceñida o empopada) para poder modificarlo.")
         
-        # Llamar al método de la clase base 
+        # Llamar al método de la clase base
         super().set_rumbo(rumbo)
     
     def iniciar_navegacion(self, velocidad, rumbo, patron, num_tripulantes):
@@ -81,7 +85,7 @@ class Velero(Embarcacion, IRegateable):
     def iniciar_regata(self, otro_barco):
         """Inicia una regata con otro velero"""
         
-        # Validaciones específicas de Velero
+        # Validaciones
         if otro_barco is None:
             raise ValueError("El barco con el que se intenta regatear no existe")
         
@@ -103,7 +107,7 @@ class Velero(Embarcacion, IRegateable):
                 "no tienen el mismo numero de mástiles."
             )
         
-        # Determinar ganador, el barco con mayor velocidad gana, si hay empate, llegan a la vez
+        # Determinar ganador
         if self._velocidad > otro_barco._velocidad:
             return f"El barco {self._nombre} ha llegado antes a la línea de llegada."
         elif self._velocidad < otro_barco._velocidad:
